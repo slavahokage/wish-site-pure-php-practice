@@ -1,7 +1,14 @@
 <h2>Write you wish</h2>
 <p>
-    <form action="/save" method="post">
-        <input name="test">
+    <form id='wishForm' action="/save" method="post">
+        <input id='wishText' name="wish">
     <button type="submit">send</button>
-    </form>
+</form>
 </p>
+<?php
+$wishes = '';
+foreach ($data as $element) {
+    $wishes = $wishes . $element . '</br>';
+}
+echo '<div id = \'wishes\'>' . $wishes . '</div>';
+?>

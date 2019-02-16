@@ -10,11 +10,13 @@ class MainController extends Controller
 {
     function actionIndex()
     {
-        $this->view->generate('mainView.php', 'templateView.php');
+        $data = $this->model->getAllWishes();
+        $this->view->generate('mainView.php', 'templateView.php', $data);
     }
 
     function actionSave()
     {
-
+        $this->model->saveWish($_POST['wish']);
+        echo $_POST['wish'];
     }
 }

@@ -10,17 +10,13 @@ class Model
 {
     private $connection;
 
-    /**
-     * Model constructor.
-     * @param $connection
-     */
-    public function __construct($connection)
+    public function setConnection($connection)
     {
         $this->connection = $connection;
     }
 
-    public function getData()
+    public function getConnection()
     {
-
+        return $this->connection;
     }
 }

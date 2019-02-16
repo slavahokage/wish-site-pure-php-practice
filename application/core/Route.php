@@ -4,21 +4,13 @@ class Route
 {
     public static function start()
     {
+
         $controllerName = 'Main';
         $modelName = 'Main';
         $actionName = 'index';
+        $connectionFile = 'Connection.php';
 
         $routes = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
-        // получаем имя контроллера
-        /* if (!empty($routes[1])) {
-             $controllerName = $routes[1];
-         }*/
-
-        // получаем имя экшена
-        /* if (!empty($routes[2])) {
-             $actionName = $routes[2];
-         }*/
 
         $i = count($routes) - 1;
         $flag = false;
@@ -47,6 +39,7 @@ class Route
 
         $modelFile = $modelName . '.php';
         $modelPath = "application/models/" . $modelFile;
+
         if (file_exists($modelPath)) {
             include "application/models/" . $modelFile;
         }
@@ -61,7 +54,13 @@ class Route
             echo 404;
         }
 
+        include "application/core/" . $connectionFile;
+
+        $connection = new Connection();
+        $model = new $modelName;
+        $model->setConnection($connection->getConnectionInstance());
         $controller = new $controllerName;
+        $controller->setModel($model);
         $action = $actionName;
 
         if (method_exists($controller, $action)) {
