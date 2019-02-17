@@ -19,7 +19,7 @@ class Route
             if ($routes[$i] != '') {
                 if (file_exists("application/controllers/" . ucfirst($routes[$i]) . "Controller.php") || !empty($_GET)) {
                     $controllerName = ucfirst($routes[$i]) . "Controller";
-                    $modelName = ucfirst($controllerName) . 'Model';
+                    $modelName = ucfirst($routes[$i]) . 'Model';
                     $flag = true;
                     break;
                 } else {
@@ -36,13 +36,7 @@ class Route
 
 
         $actionName = 'action' . ucfirst($actionName);
-
-        $modelFile = $modelName . '.php';
-        $modelPath = "application/models/" . $modelFile;
-
-        if (file_exists($modelPath)) {
-            include "application/models/" . $modelFile;
-        }
+        include "application/core/" . $connectionFile;
 
         $controllerFile = $controllerName . '.php';
         $controllerPath = "application/controllers/" . $controllerFile;
@@ -54,14 +48,20 @@ class Route
             echo 404;
         }
 
-        include "application/core/" . $connectionFile;
-
-        $connection = new Connection();
-        $model = new $modelName;
-        $model->setConnection($connection->getConnectionInstance());
         $controller = new $controllerName;
-        $controller->setModel($model);
         $action = $actionName;
+
+        $modelFile = $modelName . '.php';
+        $modelPath = "application/models/" . $modelFile;
+
+        if (file_exists($modelPath)) {
+            include "application/models/" . $modelFile;
+            $connection = new Connection();
+            $model = new $modelName;
+            $model->setConnection($connection->getConnectionInstance());
+            $controller->setModel($model);
+        }
+
 
         if (method_exists($controller, $action)) {
             $controller->$action();
