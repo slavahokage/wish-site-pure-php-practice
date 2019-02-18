@@ -13,7 +13,7 @@ class RegistrationModel extends Model
         $sql = "INSERT INTO users (name, password) VALUES (:name, :password)";
         $statement = $this->getConnection()->prepare($sql);
         $statement->bindValue(':name', $name);
-        $statement->bindValue(':password', $password);
+        $statement->bindValue(':password', password_hash($password, PASSWORD_BCRYPT));
         $inserted = $statement->execute();
         if ($inserted) {
             return true;

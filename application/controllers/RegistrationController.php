@@ -18,8 +18,10 @@ class RegistrationController extends Controller
         $user = $this->model->saveUser($_POST['name'], $_POST['password']);
         if ($user === true) {
             $_SESSION['user'] = $_POST['name'];
+            header('Location: ' . '/');
+        } else {
+            $_SESSION['duplicateName'] = 'duplicate';
+            header('Location: ' . '/registration');
         }
-
-        header('Location: ' . '/');
     }
 }

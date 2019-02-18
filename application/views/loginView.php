@@ -1,11 +1,11 @@
-<h2>Registration form</h2>
+<h2>Login form</h2>
+<?php
+if (isset($_SESSION['loginFail'])) {
+    echo '<h3>Login fail</h3>';
+}
+?>
 <p>
-<form id='registrationForm' action="/registration/save" method="post">
-    <?php
-    if (isset($_SESSION['duplicateName'])) {
-        echo '<h3>Duplicate name!</h3>';
-    }
-    ?>
+<form id='registrationForm' action="/login/check" method="post">
     <table>
         <tr>
             <td>
@@ -24,6 +24,6 @@
             </td>
         </tr>
     </table>
-    <button type="submit">save me</button>
+    <button type="submit">log in</button>
 </form>
 </p>

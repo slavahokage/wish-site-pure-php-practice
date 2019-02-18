@@ -11,6 +11,7 @@ class LogoutController extends Controller
     function actionIndex()
     {
         unset($_SESSION["user"]);
+        unset($_SESSION['loginFail']);
         header('Location: ' . '/');
     }
 }
